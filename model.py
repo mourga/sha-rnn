@@ -17,6 +17,7 @@ tcheckpoint = torch.utils.checkpoint.checkpoint
 checkpoint = lambda f, *args, **kwargs: f(*args, **kwargs)
 
 def attention(query, key, value, attn_mask=None, need_weights=True, dropout=None):
+
     # https://pytorchnlp.readthedocs.io/en/latest/_modules/torchnlp/nn/attention.html
     # Needs [batch, heads, seqlen, hid]
 
