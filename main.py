@@ -4,6 +4,7 @@ import time
 import math
 import numpy as np
 import torch
+import os
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
@@ -14,7 +15,7 @@ import model
 from utils import batchify, get_batch, repackage_hidden, zero_hidden
 
 parser = argparse.ArgumentParser(description='PyTorch PennTreeBank RNN/LSTM Language Model')
-parser.add_argument('--data', type=str, default='data/penn/',
+parser.add_argument('--data', type=str, default='data/wikitext-2/',
                     help='location of the data corpus')
 parser.add_argument('--model', type=str, default='LSTM',
                     help='type of recurrent net (LSTM, QRNN, GRU)')
@@ -73,8 +74,16 @@ parser.add_argument('--optimizer', type=str,  default='sgd',
                     help='optimizer to use (sgd, adam)')
 parser.add_argument('--when', nargs="+", type=int, default=[-1],
                     help='When (which epochs) to divide the learning rate by 10 - accepts multiple')
+parser.add_argument("-g", "--gpu", required=False,
+                    default='2', help="gpu on which this experiment runs")
+parser.add_argument("-server", "--server", required=False,
+                    default='ford', help="server on which this experiment runs")
 args = parser.parse_args()
 args.tied = True
+
+if args.server is 'ford':
+    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
+    print("\nThis experiment runs on gpu {}...\n".format(args.gpu))
 
 # Set the random seed manually for reproducibility.
 np.random.seed(args.seed)
@@ -110,7 +119,7 @@ def model_load(fn):
                 if block.attn: block.attn.vq_collapse()
         del m
 
-import os
+
 import hashlib
 fn = 'corpus.{}.data'.format(hashlib.md5(args.data.encode()).hexdigest())
 if os.path.exists(fn):
