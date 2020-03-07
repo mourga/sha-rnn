@@ -1,5 +1,6 @@
 import argparse
 import functools
+import sys
 import time
 import math
 import numpy as np
@@ -9,6 +10,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
 
+sys.path.append("../../")
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 import data
 import model
 
