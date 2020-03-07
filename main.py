@@ -10,13 +10,15 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
 
+
+
 sys.path.append("../../")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 import data
 import model
 
 from utils import batchify, get_batch, repackage_hidden, zero_hidden
-from pytroch_lamb.pytorchlamb.lamb import Lamb
+from lamb import Lamb
 
 parser = argparse.ArgumentParser(description='PyTorch PennTreeBank RNN/LSTM Language Model')
 parser.add_argument('--data', type=str, default='data/wikitext-2/',
