@@ -16,6 +16,7 @@ import data
 import model
 
 from utils import batchify, get_batch, repackage_hidden, zero_hidden
+from pytroch_lamb.pytorchlamb.lamb import Lamb
 
 parser = argparse.ArgumentParser(description='PyTorch PennTreeBank RNN/LSTM Language Model')
 parser.add_argument('--data', type=str, default='data/wikitext-2/',
@@ -371,7 +372,7 @@ try:
     if args.optimizer == 'adamw':
         optimizer = torch.optim.AdamW(params, lr=args.lr, weight_decay=args.wdecay)
     if args.optimizer == 'lamb':
-        from pytorch_lamb import Lamb
+        # from pytorch_lamb import Lamb
         optimizer = Lamb(params, lr=args.lr, weight_decay=args.wdecay, min_trust=0.25)
         #optimizer = Lamb(params, lr=args.lr, weight_decay=args.wdecay, min_trust=0.1)
         #optimizer = Lamb(params, lr=args.lr, weight_decay=args.wdecay, min_trust=0, random_min_trust=0.2, random_trust_dice=10)
